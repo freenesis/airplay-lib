@@ -1,0 +1,80 @@
+import java.nio.file.Files
+import java.nio.file.Paths
+
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+}
+
+group 'org.freenesis.airplay'
+version '0.0.1'
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_9
+}
+
+dependencies {
+    implementation 'org.jmdns:jmdns:3.5.7'
+    implementation 'net.i2p.crypto:eddsa:0.3.0'
+    implementation 'org.whispersystems:curve25519-java:0.5.0'
+    implementation 'com.googlecode.plist:dd-plist:1.23'
+    implementation 'org.slf4j:slf4j-api:1.7.36'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    testRuntimeOnly 'org.slf4j:slf4j-simple:1.7.36'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+wrapper {
+    gradleVersion = '7.4.2'
+    distributionType = Wrapper.DistributionType.ALL
+}
+
+task fatJar(type: Jar) {
+    archiveClassifier.set('all')
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+task jarSources(type: Jar) {
+    archiveClassifier.set('sources')
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives jarSources
+}
+
+// Load `local.properties` file, if it exists
+if (Files.exists(Paths.get("$project.rootDir/local.properties"))) {
+   def localProperties = new Properties()
+   localProperties.load(new FileInputStream("$project.rootDir/local.properties"))
+   localProperties.each { prop -> project.ext.set(prop.key, prop.value) }
+}
+
+publishing {
+   repositories {
+       maven {
+           name = "GitHubPackages"
+           url = uri("https://maven.pkg.github.com/freenesis/${rootProject.name}")
+           credentials {
+               username = project.findProperty("github_username") ?: System.getenv("GITHUB_ACTOR")
+               password = project.findProperty("github_token") ?: System.getenv("GITHUB_TOKEN")
+           }
+       }
+   }
+   publications {
+       gpr(MavenPublication) {
+           from(components["java"])
+           artifact(tasks["fatJar"])
+       }
+   }
+}

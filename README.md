@@ -1,24 +1,18 @@
 # java-airplay-lib
 
-[![build](https://github.com/serezhka/java-airplay-lib/actions/workflows/build.yaml/badge.svg)](https://github.com/serezhka/java-airplay-lib/actions/workflows/build.yaml)
-[![Release](https://jitpack.io/v/serezhka/java-airplay-lib.svg)](https://jitpack.io/#serezhka/java-airplay-lib)
-![ViewCount](https://views.whatilearened.today/views/github/serezhka/java-airplay-lib.svg)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](http://opensource.org/licenses/MIT)
-
-#### <br><br><br> 14.12.2022: Check out new java-airplay project: https://github.com/serezhka/java-airplay <br><br><br>
-
+[![build](https://github.com/freenesis/airplay-lib/actions/workflows/build.yaml/badge.svg)](https://github.com/freenesis/airplay-lib/actions/workflows/build.yaml)
 
 
 This library is intended to easily create AirPlay2 servers acting like Apple TV. Tested with iPhone X (iOS 14.0.1)
 
 ## How to use?
 
-* Add java-airplay-lib [dependency](https://jitpack.io/#serezhka/java-airplay-lib) to your project
+* Add airplay-lib [dependency](https://github.com/freenesis/airplay-lib/packages/1990857) to your project
 
 * Make your server discoverable by [Bonjour](https://ru.wikipedia.org/wiki/Bonjour)
 
 ```java
-  String serverName = "@srzhka";
+  String serverName = "AirplayServer";
   int airPlayPort = 5001;
   int airTunesPort = 7001;
   AirPlayBonjour airPlayBonjour = new AirPlayBonjour(serverName);
@@ -26,8 +20,6 @@ This library is intended to easily create AirPlay2 servers acting like Apple TV.
   ...
   airPlayBonjour.stop();
 ```
-
-<img src="https://github.com/serezhka/java-airplay-lib/blob/media/bonjour.jpg" width="256" height="256">
 
 * Listen airTunesPort and handle RTSP requests. Pass request content bytes to the library and respond with provided content bytes.
 
@@ -86,18 +78,12 @@ This library is intended to easily create AirPlay2 servers acting like Apple TV.
     
     airPlay.decryptAudio(byte[] audio, int audioLength);
 ```
-<img src="https://github.com/serezhka/java-airplay-lib/blob/media/paired_1.jpg" width="256" height="256"><img src="https://github.com/serezhka/java-airplay-lib/blob/media/paired_2.jpg" height="256">
 
 ## Example server
 
-[java-airplay-server](https://github.com/serezhka/java-airplay-server) with Netty
+[airplay-server](https://github.com/freenesis/airplay-server) with Netty
 
-<img src="https://github.com/serezhka/java-airplay-server-examples/blob/media/gstreamer_playback.gif" width="600">
 
 ## Links
 
 [Analysis of AirPlay2 Technology](http://www.programmersought.com/article/2084789418/)
-
-## Info
-
-Inspired by many other open source projects analyzing AirPlay2 protocol. Special thanks to OmgHax.c's author 🤯

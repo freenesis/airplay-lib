@@ -1,4 +1,4 @@
-# java-airplay-lib
+# airplay-lib
 
 [![build](https://github.com/freenesis/airplay-lib/actions/workflows/build.yaml/badge.svg)](https://github.com/freenesis/airplay-lib/actions/workflows/build.yaml)
 
